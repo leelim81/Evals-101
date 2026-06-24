@@ -621,7 +621,7 @@ AI Verify gives verifiability and documentation, not a guarantee.
   <div class="card">
     <div class="ct">AI VERIFY — 2022</div>
     <h4>Traditional ML</h4>
-    <p>Classification &amp; regression on tabular / image data. Fairness, robustness, explainability tests + governance process checks.</p>
+    <p>Classification &amp; regression, mostly on tabular data (limited image support). Fairness, robustness, explainability tests + governance process checks.</p>
   </div>
   <div class="card">
     <div class="ct">PROJECT MOONSHOT — 2024</div>
