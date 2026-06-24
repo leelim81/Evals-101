@@ -892,45 +892,42 @@ p<sub>e</sub> multiplies each rater's marginal rates — that's the "by chance" 
 
 ---
 
-<div class="kicker">Appendix · References</div>
+<div class="kicker">Appendix · Citations</div>
 
 ## Sources &amp; further reading
 
-<div class="cardrow cols-3">
-  <div class="card">
-    <div class="ct">SINGAPORE</div>
-    <h4>AI Verify &amp; Moonshot</h4>
-    <p>aiverifyfoundation.sg · imda.gov.sg (Global AI Assurance Pilot, 2025) · aiverify-foundation.github.io/moonshot · github.com/aiverify-foundation/moonshot</p>
-  </div>
-  <div class="card">
-    <div class="ct">LLM-AS-A-JUDGE</div>
-    <h4>Judge methods &amp; biases</h4>
-    <p>Zheng et al. 2023, "Judging LLM-as-a-Judge with MT-Bench" (arXiv 2306.05685) · "Justice or Prejudice?" (arXiv 2410.02736) · EvidentlyAI LLM-judge guide</p>
-  </div>
-  <div class="card">
-    <div class="ct">AGREEMENT</div>
-    <h4>Kappa &amp; reliability</h4>
-    <p>Cohen 1960; weighted κ 1968 · Landis &amp; Koch 1977, <em>Biometrics</em> 33:159–174 · Feinstein &amp; Cicchetti 1990 (the kappa paradox) · Krippendorff's α</p>
-  </div>
+<div style="text-align:left; font-size:0.92rem; line-height:1.5; max-width:64ch">
+
+**Singapore AI Verify / Moonshot**
+- `aiverifyfoundation.sg` — framework, the 11 governance principles, Project Moonshot
+- `github.com/aiverify-foundation/moonshot` — the open-source LLM evaluation toolkit
+- `assurance.aiverifyfoundation.sg` — Global AI Assurance Pilot (2025)
+
+**LLM-as-a-judge**
+- Zheng et al. 2023, *Judging LLM-as-a-Judge with MT-Bench &amp; Chatbot Arena* — arXiv:2306.05685
+- *Justice or Prejudice? Quantifying Biases in LLM-as-a-Judge* (2024) — arXiv:2410.02736
+
+**Agreement &amp; Cohen's Kappa**
+- Cohen 1960 (κ) · Cohen 1968 (weighted κ, *Psych. Bulletin* 70:213–220)
+- Landis &amp; Koch 1977, *Biometrics* 33:159–174 — the interpretation bands
+- Feinstein &amp; Cicchetti 1990, *J. Clin. Epidemiol.* 43:543–549 — the kappa paradox
+- Krippendorff's α — any number of raters, any scale, tolerates missing data
+
 </div>
 
-<p class="muted" style="margin-top:1.2rem; font-size:0.95rem">
-Every factual claim in this deck was cross-checked against these sources.
-</p>
-
-<div class="foot-tag">Evals 101 · Appendix · References</div>
+<div class="foot-tag">Evals 101 · Appendix</div>
 
 ---
 
 <div class="kicker">Appendix · For the eval nerds</div>
 
-## The fine print
+## Fine print &amp; honest caveats
 
-<ul>
-  <li><strong>Reference-guided</strong> grading is really a <em>variant</em> of single-answer grading (the judge is handed a gold answer) — not a fully separate third mode.</li>
-  <li><strong>Fleiss' κ</strong> extends to a panel but is <em>nominal-only</em> and assumes a fixed number of ratings per item; <strong>Krippendorff's α</strong> is the more general tool (any scale, missing data).</li>
-  <li><strong>Formatting / markdown bias</strong> is documented in <em>later</em> work, not the original MT-Bench paper — treat it as an additional, well-evidenced failure mode.</li>
-  <li>The <strong>Landis–Koch bands</strong> are a handy convention but admittedly <em>arbitrary</em> — always read κ next to the confusion matrix (see the kappa paradox).</li>
+<ul style="font-size:1.02rem; line-height:1.5; max-width:60ch">
+  <li v-click><strong>Reference-guided</strong> grading is really a <em>variant</em> of single-answer grading (the judge is handed a gold answer) — not a separate third axis.</li>
+  <li v-click><strong>Fleiss' κ</strong> extends to a whole panel but is <em>nominal-only</em> and assumes a fixed number of ratings per item; <strong>Krippendorff's α</strong> is the more general tool.</li>
+  <li v-click><strong>Formatting / markdown bias</strong> is documented in <em>later</em> work — not the original MT-Bench paper.</li>
+  <li v-click><strong>Landis–Koch bands are arbitrary</strong> (the authors said as much). Always read κ <em>next to</em> the confusion matrix — remember the paradox.</li>
 </ul>
 
-<div class="foot-tag">Evals 101 · Appendix · Caveats</div>
+<div class="foot-tag">Evals 101 · Appendix</div>
