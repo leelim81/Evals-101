@@ -304,7 +304,7 @@ a real support-ticket example, prompt and verdict revealed step by step.
 ## Judges are confident — and biased
 
 <div class="cardrow cols-2">
-  <div class="card"><div class="ct">POSITION BIAS</div><h4>Order matters</h4><p>In pairwise mode, judges often prefer whichever answer came <em>first</em> (or second) — regardless of quality.</p></div>
+  <div class="card"><div class="ct">POSITION BIAS</div><h4>Order matters</h4><p>In pairwise mode, judges tend to prefer whichever answer is shown <em>first</em> — regardless of quality.</p></div>
   <div class="card"><div class="ct">VERBOSITY BIAS</div><h4>Longer looks smarter</h4><p>More words and more formatting get rated higher, even when they add nothing.</p></div>
   <div class="card"><div class="ct">SELF-PREFERENCE</div><h4>Likes its own kind</h4><p>A model tends to favour text written in its own style — including its own outputs.</p></div>
   <div class="card"><div class="ct">FORMAT BIAS</div><h4>Bullets &amp; bold win</h4><p>Pretty formatting can sway the score independent of substance.</p></div>
