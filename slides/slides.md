@@ -9,6 +9,7 @@ class: cover
 transition: slide-left
 mdc: true
 colorSchema: light
+routerMode: hash
 fonts:
   sans: Inter
   mono: JetBrains Mono
