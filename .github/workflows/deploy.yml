@@ -13,7 +13,7 @@ permissions:
 # One concurrent deploy; let an in-progress run finish.
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
