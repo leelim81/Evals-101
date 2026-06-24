@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+const labs = [
+  { href: base + 'judge', t: 'LAB 01', name: 'Judge Walkthrough', desc: 'Step through a real LLM-as-a-judge grading a support reply — rubric, scores, verdict — then flip the answer order and watch position bias strike.', tag: 'LLM-as-a-judge · bias' },
+  { href: base + 'kappa', t: 'LAB 02', name: 'Cohen’s Kappa Calculator', desc: 'Edit a confusion matrix and watch agreement-beyond-chance update live. Load the “good judge” and “kappa paradox” presets to feel why raw % lies.', tag: 'agreement · reliability' },
+  { href: base + 'moonshot', t: 'LAB 03', name: 'Moonshot Concept Map', desc: 'Click through Project Moonshot’s building blocks — connectors, datasets, metrics, recipes, cookbooks — and run a recipe to see where the LLM judge sits.', tag: 'AI Verify · Singapore' },
+];
+---
+<Base title="Interactive Labs" active="home">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">The demos · companion to the deck</span>
+      <h1>Evals,<br>hands-on.</h1>
+      <p class="lede">The slides give you the theory. Here you can <strong>play with it</strong>: grade answers like an LLM judge, compute Cohen’s Kappa yourself, and map how Singapore’s Project Moonshot puts these pieces together.</p>
+    </div>
+  </header>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="grid c3">
+        {labs.map((l) => (
+          <a class="cell" href={l.href} style="color:inherit; display:block">
+            <div class="t">{l.t}</div>
+            <h3 style="margin:8px 0 8px; font-size:22px">{l.name} →</h3>
+            <p style="font-size:14px; color:var(--muted)">{l.desc}</p>
+            <p style="margin-top:14px; font-family:var(--mono); font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em">{l.tag}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>The 60-second version</h2>
+      <div class="grid c2" style="margin-top:8px">
+        <div class="cell">
+          <div class="t">THE PROBLEM</div>
+          <p style="color:var(--ink); margin-top:8px">For open-ended AI output there’s no single right answer, so string-matching fails and human review doesn’t scale. We need <strong>judgement at machine speed</strong>.</p>
+        </div>
+        <div class="cell">
+          <div class="t">THE ANSWER (&amp; ITS CATCH)</div>
+          <p style="color:var(--ink); margin-top:8px">An <strong>LLM judge</strong> scales — but it’s biased and unproven until you <strong>measure its agreement with humans</strong> using Cohen’s Kappa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+slides/dist/
+demo/dist/
+.astro/
+
+# slidev
+slides/.slidev/
+
+# logs / os
+*.log
+.DS_Store
+
+# exports are kept (committed) under exports/, but ignore stray temp ones
+*.tmp

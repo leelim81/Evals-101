@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import MoonshotMap from '../components/MoonshotMap.astro';
+const slidesUrl = (import.meta.env.BASE_URL.replace(/\/$/, '') + '/').replace(/demo\/$/, 'slides/');
+---
+<Base title="Moonshot Concept Map" active="moonshot">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Lab 03 · Singapore AI Verify</span>
+      <h1>How a national<br>toolkit wires<br>this together.</h1>
+      <p class="lede">Singapore’s <strong>Project Moonshot</strong> (by the AI Verify Foundation / IMDA) is an open-source LLM-evaluation toolkit. Everything you just learned — judges, rubrics, agreement — lives inside its building blocks. Click around.</p>
+    </div>
+  </header>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>The building blocks</h2>
+      <p class="muted" style="margin-bottom:18px">Select a block to see what it does, then run a recipe to watch a prompt flow through — note where the <strong>LLM-as-a-judge</strong> metric sits.</p>
+      <MoonshotMap />
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>Two tools, two eras</h2>
+      <div class="grid c2" style="margin-top:8px">
+        <div class="cell"><div class="t">AI VERIFY · 2022</div><h3 style="margin:8px 0">Traditional ML</h3><p style="color:var(--ink); font-size:14px">Tests classification/regression models (tabular &amp; image) against 11 governance principles, mixing technical tests with process checks.</p></div>
+        <div class="cell"><div class="t">PROJECT MOONSHOT · 2024</div><h3 style="margin:8px 0">Generative AI / LLMs</h3><p style="color:var(--ink); font-size:14px">Benchmarking + red-teaming + safety baselines for chatbots and LLM apps — including LLM-as-a-judge metrics.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>Two things people get wrong</h2>
+      <div class="grid c2" style="margin-top:8px">
+        <div class="cell"><div class="t">MYTH 1</div><h3 style="margin:8px 0">“Passing = certified safe”</h3><p style="color:var(--ink); font-size:14px">No. AI Verify produces <strong>evidence and documentation</strong>, not a safety guarantee. Testing ≠ certification.</p></div>
+        <div class="cell"><div class="t">MYTH 2</div><h3 style="margin:8px 0">“A benchmark covers my app”</h3><p style="color:var(--ink); font-size:14px">Singapore’s 2025 Global AI Assurance Pilot found GenAI risk is <strong>context-dependent</strong> — you still need your own domain evals.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>Go to the source</h2>
+      <div class="grid c3" style="margin-top:8px">
+        <a class="cell" href="https://aiverifyfoundation.sg/" target="_blank" rel="noopener" style="color:inherit"><div class="t">FOUNDATION</div><h3 style="margin:8px 0">AI Verify ↗</h3><p>aiverifyfoundation.sg</p></a>
+        <a class="cell" href="https://github.com/aiverify-foundation/moonshot" target="_blank" rel="noopener" style="color:inherit"><div class="t">CODE</div><h3 style="margin:8px 0">Moonshot on GitHub ↗</h3><p>github.com/aiverify-foundation/moonshot</p></a>
+        <a class="cell" href="https://assurance.aiverifyfoundation.sg/" target="_blank" rel="noopener" style="color:inherit"><div class="t">2025 PILOT</div><h3 style="margin:8px 0">Global AI Assurance ↗</h3><p>assurance.aiverifyfoundation.sg</p></a>
+      </div>
+      <p class="callout" style="margin-top:22px"><a href={slidesUrl}>← Back to the slides</a> to wrap up — or build your own eval harness with these four boxes: data · judge · agreement gate · regression gate.</p>
+    </div>
+  </section>
+</Base>

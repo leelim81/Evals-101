@@ -1,0 +1,77 @@
+name: Deploy Evals 101 to GitHub Pages
+
+on:
+  push:
+    branches: [main, master, claude/ultra-effort-fiscw1]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One concurrent deploy; let an in-progress run finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit-test the kappa math
+        run: pnpm --filter demo test
+
+      - name: Build slides + demo
+        run: |
+          pnpm build:slides
+          pnpm build:demo
+
+      - name: Export deck to PDF + PPTX
+        continue-on-error: true
+        run: |
+          pnpm --filter slides exec playwright install --with-deps chromium
+          mkdir -p exports
+          pnpm export:pdf
+          pnpm export:pptx
+
+      - name: Assemble dist (incl. any exports)
+        run: node scripts/assemble-dist.mjs
+
+      - name: Upload deck exports as a workflow artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deck-exports
+          path: exports/
+          if-no-files-found: ignore
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

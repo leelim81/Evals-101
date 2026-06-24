@@ -1,0 +1,146 @@
+---
+// Interactive map of Project Moonshot's building blocks + a "run a recipe"
+// click-through that shows where LLM-as-a-judge sits. Content is static/illustrative.
+const blocks = [
+  { id: 'connector', name: 'Connector', tag: 'CONNECT', desc: 'An adapter to talk to any LLM or LLM app — OpenAI, Anthropic, HuggingFace, or your own endpoint. Swap the model under test without changing anything else.' },
+  { id: 'dataset', name: 'Dataset', tag: 'INPUT', desc: 'A set of input prompts paired with expected/target answers — the questions you grade the model on (capability, safety, domain knowledge…).' },
+  { id: 'metric', name: 'Metric', tag: 'SCORE', desc: 'How an answer is scored: exact-match, keyword checks, or an LLM-as-a-judge that reads the response and rates it. This is where everything earlier in the deck lives.' },
+  { id: 'recipe', name: 'Recipe', tag: 'TEST', desc: 'A Dataset + a Metric = one ready-to-run test. “Run this prompt set, score it this way.”' },
+  { id: 'cookbook', name: 'Cookbook', tag: 'SUITE', desc: 'A themed collection of recipes — e.g. a safety cookbook or a capability cookbook — run together as a suite.' },
+];
+const modes = [
+  { name: 'Benchmarking', desc: 'Measure capability, quality, trust & safety against known test sets.' },
+  { name: 'Red-teaming', desc: 'Automated adversarial prompts that try to make the model misbehave.' },
+  { name: 'Baseline testing', desc: 'Establish a safety/quality floor before you ship.' },
+];
+const steps = [
+  { node: 'dataset', label: 'A prompt is drawn from the dataset' },
+  { node: 'connector', label: 'The connector sends it to the model under test' },
+  { node: 'connector', label: 'The model returns an answer' },
+  { node: 'metric', label: 'The metric — an LLM judge — scores the answer' },
+  { node: 'recipe', label: 'Scores aggregate into the recipe’s result' },
+];
+---
+<div class="moon" data-moon>
+  <script type="application/json" data-moon-desc set:html={JSON.stringify(Object.fromEntries(blocks.map((b) => [b.id, b.desc])))}></script>
+  <div class="pipeline" data-pipeline>
+    {blocks.map((b) => (
+      <button class="node" data-node={b.id}>
+        <span class="t">{b.tag}</span>
+        <span class="nm">{b.name}</span>
+      </button>
+    ))}
+  </div>
+
+  <div class="moon-grid">
+    <div class="panel detail" data-detail>
+      <div class="t" style="font-family:var(--mono); font-size:12px; color:var(--accent)">SELECT A BLOCK</div>
+      <h3 data-detail-name style="margin:8px 0">Connector</h3>
+      <p data-detail-desc style="color:var(--ink)"></p>
+    </div>
+
+    <div class="panel runner">
+      <div class="t" style="font-family:var(--mono); font-size:12px; color:var(--accent)">HOW A RECIPE RUNS</div>
+      <ol class="run-steps" data-run-steps>
+        {steps.map((s, i) => (
+          <li data-step={i} data-step-node={s.node}>{s.label}</li>
+        ))}
+      </ol>
+      <button class="btn solid" data-run>▶ Run the recipe</button>
+    </div>
+  </div>
+
+  <div class="modes">
+    {modes.map((m) => (
+      <div class="cell" style="border:1px solid var(--line); border-radius:6px">
+        <div class="t">{m.name.toUpperCase()}</div>
+        <p style="margin-top:6px; color:var(--muted); font-size:14px">{m.desc}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .pipeline { display: flex; gap: 0; flex-wrap: wrap; align-items: stretch; margin-bottom: 22px; }
+  .node { position: relative; flex: 1; min-width: 120px; background: var(--paper-2); border: 1px solid var(--line); padding: 16px 14px; cursor: pointer; text-align: left; transition: all .15s ease; }
+  .node + .node { border-left: none; }
+  .node::after { content: "→"; position: absolute; right: -9px; top: 50%; transform: translateY(-50%); color: var(--muted); background: var(--paper); z-index: 2; font-size: 13px; }
+  .node:last-child::after { content: ""; }
+  .node .t { display: block; font-family: var(--mono); font-size: 11px; color: var(--accent); }
+  .node .nm { display: block; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; margin-top: 3px; }
+  .node:hover { background: #fff; }
+  .node.sel { background: var(--ink); }
+  .node.sel .nm { color: #fff; }
+  .node.sel .t { color: #ff8a80; }
+  .node.flash { background: var(--accent); }
+  .node.flash .nm, .node.flash .t { color: #fff; }
+
+  .moon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .run-steps { list-style: none; margin: 10px 0 16px; padding: 0; }
+  .run-steps li { padding: 9px 12px; border-left: 3px solid var(--line); margin: 6px 0; font-size: 14px; color: var(--muted); transition: all .2s ease; }
+  .run-steps li.on { border-left-color: var(--accent); color: var(--ink); background: var(--paper); font-weight: 600; }
+  .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+  @media (max-width: 760px) { .moon-grid, .modes { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  interface Block { id: string; name: string; desc: string; }
+
+  document.querySelectorAll<HTMLElement>('[data-moon]').forEach((root) => {
+    const nodes = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-node]'));
+    const nameEl = root.querySelector<HTMLElement>('[data-detail-name]')!;
+    const descEl = root.querySelector<HTMLElement>('[data-detail-desc]')!;
+
+    // Pull block content from the rendered DOM so server + client stay in sync.
+    const meta: Record<string, Block> = {};
+    nodes.forEach((n) => {
+      const id = n.dataset.node!;
+      meta[id] = { id, name: n.querySelector('.nm')!.textContent!, desc: '' };
+    });
+    // descriptions are embedded in a JSON script inside the root
+    const descData = JSON.parse(
+      root.querySelector('[data-moon-desc]')!.textContent || '{}',
+    ) as Record<string, string>;
+    Object.keys(descData).forEach((k) => { if (meta[k]) meta[k].desc = descData[k]; });
+
+    function select(id: string) {
+      nodes.forEach((n) => n.classList.toggle('sel', n.dataset.node === id));
+      nameEl.textContent = meta[id].name;
+      descEl.textContent = meta[id].desc;
+    }
+    nodes.forEach((n) => n.addEventListener('click', () => select(n.dataset.node!)));
+
+    // Run-the-recipe animation
+    const stepEls = Array.from(root.querySelectorAll<HTMLElement>('[data-step]'));
+    const runBtn = root.querySelector<HTMLButtonElement>('[data-run]')!;
+    let running = false;
+    runBtn.addEventListener('click', () => {
+      if (running) return;
+      running = true;
+      runBtn.disabled = true;
+      stepEls.forEach((s) => s.classList.remove('on'));
+      nodes.forEach((n) => n.classList.remove('flash'));
+      let i = 0;
+      const tick = () => {
+        if (i > 0) {
+          stepEls[i - 1]?.classList.remove('on');
+          const prevNode = stepEls[i - 1]?.dataset.stepNode;
+          if (prevNode) root.querySelector(`[data-node="${prevNode}"]`)?.classList.remove('flash');
+        }
+        if (i >= stepEls.length) {
+          running = false;
+          runBtn.disabled = false;
+          return;
+        }
+        stepEls[i].classList.add('on');
+        const node = stepEls[i].dataset.stepNode;
+        if (node) root.querySelector(`[data-node="${node}"]`)?.classList.add('flash');
+        i++;
+        setTimeout(tick, 900);
+      };
+      tick();
+    });
+
+    select('connector');
+  });
+</script>

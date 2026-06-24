@@ -1,0 +1,139 @@
+---
+import { task, rubric, candidates, pairwise, biasNote } from '../data/judgeExample';
+const overall = (c: (typeof candidates)[number]) =>
+  Math.round((c.scores.correctness + c.scores.helpfulness + c.scores.tone) / 3);
+const A = candidates.find((c) => c.id === 'A')!;
+const B = candidates.find((c) => c.id === 'B')!;
+const verdictData = {
+  AB: { winner: 'Winner: Answer A', reason: pairwise.AB.reason },
+  BA: { winner: 'Winner: Answer B', reason: pairwise.BA.reason },
+  bias: biasNote,
+};
+---
+<div class="stepper" data-stepper>
+  <script type="application/json" data-verdicts set:html={JSON.stringify(verdictData)}></script>
+
+  <div class="step-nav">
+    <div class="dots" data-dots></div>
+    <div class="step-buttons">
+      <button class="btn" data-prev disabled>← Back</button>
+      <button class="btn solid" data-next>Next →</button>
+    </div>
+  </div>
+
+  <div class="stage" data-stage="0">
+    <span class="kicker">Step 1 · The task</span>
+    <h3>What the judge is grading</h3>
+    <p class="note" style="margin:6px 0 14px">{task.context}</p>
+    <div class="panel">{task.question}</div>
+  </div>
+
+  <div class="stage" data-stage="1" hidden>
+    <span class="kicker">Step 2 · The rubric</span>
+    <h3>The instructions we give the judge</h3>
+    <p class="note" style="margin:6px 0 14px">A vague rubric produces noisy scores. This one defines the criteria and asks for a reason <em>before</em> the score.</p>
+    <pre class="code">{rubric}</pre>
+  </div>
+
+  <div class="stage" data-stage="2" hidden>
+    <span class="kicker">Step 3 · Candidate answers</span>
+    <h3>Two replies to grade</h3>
+    <div class="grid c2" style="margin-top:12px">
+      <div class="cell"><div class="t">ANSWER A</div><h3 style="margin:8px 0">{A.label.replace('Answer A — ', '')}</h3><p style="color:var(--ink); white-space:pre-line; font-size:14px">{A.text}</p></div>
+      <div class="cell"><div class="t">ANSWER B</div><h3 style="margin:8px 0">{B.label.replace('Answer B — ', '')}</h3><p style="color:var(--ink); white-space:pre-line; font-size:14px">{B.text}</p></div>
+    </div>
+  </div>
+
+  <div class="stage" data-stage="3" hidden>
+    <span class="kicker">Step 4 · Pointwise scores</span>
+    <h3>The judge scores each answer 1–5</h3>
+    <table class="data" style="margin-top:12px">
+      <tr><th>Criterion</th><th>Answer A</th><th>Answer B</th></tr>
+      <tr><td>Correctness</td><td>{A.scores.correctness}</td><td>{B.scores.correctness}</td></tr>
+      <tr><td>Helpfulness</td><td>{A.scores.helpfulness}</td><td>{B.scores.helpfulness}</td></tr>
+      <tr><td>Tone</td><td>{A.scores.tone}</td><td>{B.scores.tone}</td></tr>
+      <tr><td><strong>Overall</strong></td><td><strong>{overall(A)}</strong></td><td><strong>{overall(B)}</strong></td></tr>
+    </table>
+    <p class="callout" style="margin-top:16px">On the merits, <strong>A is the better answer</strong> — it actually tells the user what to do.</p>
+  </div>
+
+  <div class="stage" data-stage="4" hidden>
+    <span class="kicker">Step 5 · Pairwise — and the bias</span>
+    <h3>Now ask the judge to pick a winner</h3>
+    <p class="note" style="margin:6px 0 14px">Toggle the order the two answers are shown in:</p>
+    <div class="step-buttons" style="margin-bottom:16px">
+      <button class="btn order" data-order="AB" aria-pressed="true">Show A, then B</button>
+      <button class="btn order" data-order="BA" aria-pressed="false">Show B, then A</button>
+    </div>
+    <div class="panel verdict">
+      <div class="t" style="font-family:var(--mono); font-size:12px; color:var(--accent)">JUDGE VERDICT</div>
+      <div class="winner" data-winner></div>
+      <p class="note" data-reason style="margin-top:8px; color:var(--ink)"></p>
+    </div>
+    <p class="callout" data-bias hidden style="margin-top:16px"></p>
+  </div>
+</div>
+
+<style>
+  .stepper { border: 1px solid var(--line); border-radius: 8px; background: var(--paper-2); padding: 22px; }
+  .step-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .dots { display: flex; gap: 7px; }
+  .dots .d { width: 9px; height: 9px; border-radius: 999px; background: var(--line); }
+  .dots .d.on { background: var(--accent); }
+  .step-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+  .stage h3 { margin-top: 6px; }
+  .winner { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; margin-top: 6px; }
+  .verdict { border-left: 4px solid var(--accent); }
+</style>
+
+<script>
+  type Verdict = { winner: string; reason: string };
+  type VerdictData = { AB: Verdict; BA: Verdict; bias: string };
+
+  document.querySelectorAll<HTMLElement>('[data-stepper]').forEach((root) => {
+    const data = JSON.parse(
+      root.querySelector('[data-verdicts]')!.textContent || '{}',
+    ) as VerdictData;
+
+    const stages = Array.from(root.querySelectorAll<HTMLElement>('[data-stage]'));
+    const dotsEl = root.querySelector<HTMLElement>('[data-dots]')!;
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-next]')!;
+    let cur = 0;
+
+    dotsEl.innerHTML = stages.map((_, i) => `<span class="d${i === 0 ? ' on' : ''}"></span>`).join('');
+    const dots = Array.from(dotsEl.querySelectorAll<HTMLElement>('.d'));
+
+    function show(i: number) {
+      cur = Math.max(0, Math.min(stages.length - 1, i));
+      stages.forEach((s, k) => (s.hidden = k !== cur));
+      dots.forEach((d, k) => d.classList.toggle('on', k <= cur));
+      prev.disabled = cur === 0;
+      next.disabled = cur === stages.length - 1;
+      next.textContent = cur === stages.length - 1 ? 'Done' : 'Next →';
+    }
+    prev.addEventListener('click', () => show(cur - 1));
+    next.addEventListener('click', () => show(cur + 1));
+
+    const winnerEl = root.querySelector<HTMLElement>('[data-winner]')!;
+    const reasonEl = root.querySelector<HTMLElement>('[data-reason]')!;
+    const biasEl = root.querySelector<HTMLElement>('[data-bias]')!;
+    biasEl.textContent = data.bias;
+    const seen = new Set<string>();
+
+    function setOrder(order: 'AB' | 'BA') {
+      root.querySelectorAll<HTMLButtonElement>('[data-order]').forEach((b) =>
+        b.setAttribute('aria-pressed', String(b.dataset.order === order)),
+      );
+      winnerEl.textContent = data[order].winner;
+      reasonEl.textContent = data[order].reason;
+      seen.add(order);
+      if (seen.size === 2) biasEl.hidden = false;
+    }
+    root.querySelectorAll<HTMLButtonElement>('[data-order]').forEach((b) =>
+      b.addEventListener('click', () => setOrder(b.dataset.order as 'AB' | 'BA')),
+    );
+    setOrder('AB');
+    show(0);
+  });
+</script>

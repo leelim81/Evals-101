@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import JudgeStepper from '../components/JudgeStepper.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+---
+<Base title="Judge Walkthrough" active="judge">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Lab 01 · LLM-as-a-judge</span>
+      <h1>Watch a judge<br>grade — and slip.</h1>
+      <p class="lede">A strong model can grade another model’s work in seconds. Step through a real example below: the task, the rubric, the answers, the scores — and then the moment its <strong>position bias</strong> shows.</p>
+    </div>
+  </header>
+
+  <section class="block">
+    <div class="wrap">
+      <JudgeStepper />
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>What just happened</h2>
+      <div class="grid c3" style="margin-top:8px">
+        <div class="cell"><div class="t">RUBRIC = THE EVAL</div><p style="color:var(--ink); margin-top:6px; font-size:14px">The judge is only as good as its instructions. Define each criterion; ask for a reason before the score.</p></div>
+        <div class="cell"><div class="t">COMPARE &gt; SCORE</div><p style="color:var(--ink); margin-top:6px; font-size:14px">Pairwise (“A or B?”) is more reliable than absolute 1–5 scores — but it’s where order bias bites.</p></div>
+        <div class="cell"><div class="t">DEFUSE THE BIAS</div><p style="color:var(--ink); margin-top:6px; font-size:14px">Run both orders and only trust a winner that survives A/B <em>and</em> B/A. Average repeated runs.</p></div>
+      </div>
+      <p class="callout" style="margin-top:22px">Next question: across many items, how often does this judge actually agree with a human? → <a href={base + 'kappa'}>Measure it with Cohen’s Kappa</a>.</p>
+    </div>
+  </section>
+</Base>

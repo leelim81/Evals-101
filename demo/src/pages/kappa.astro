@@ -1,0 +1,117 @@
+---
+import Base from '../layouts/Base.astro';
+import KappaCalculator from '../components/KappaCalculator.astro';
+import Katex from '../components/Katex.astro';
+import { dataset, classes } from '../data/judgeDataset';
+import {
+  confusionFromLabels,
+  observedAgreement,
+  expectedAgreement,
+  cohenKappa,
+  landisKoch,
+} from '../lib/kappa';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
+
+// Compute agreement over the pre-labelled dataset (server-side, from the lib).
+const m = confusionFromLabels(
+  dataset.map((d) => d.human),
+  dataset.map((d) => d.judge),
+  classes,
+);
+const po = observedAgreement(m);
+const pe = expectedAgreement(m);
+const k = cohenKappa(m);
+const band = landisKoch(k);
+const f2 = (x: number) => (Math.round(x * 100) / 100).toFixed(2);
+---
+<Base title="Cohen’s Kappa" active="kappa">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Lab 02 · Agreement beyond chance</span>
+      <h1>How much do<br>they <span class="accent">really</span> agree?</h1>
+      <p class="lede">“They agreed 85% of the time” sounds great — until you realise much of that was luck. Cohen’s Kappa subtracts the agreement you’d expect by chance. Play with it below.</p>
+    </div>
+  </header>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>The formula</h2>
+      <p class="muted">Observed agreement, minus chance, scaled by the room that was left to improve:</p>
+      <div style="font-size:26px; margin:18px 0">
+        <Katex display formula={'\\kappa = \\dfrac{p_o - p_e}{1 - p_e}'} />
+      </div>
+      <div class="grid c3">
+        <div class="cell"><div class="t">p_o</div><h3 style="margin:6px 0">Observed</h3><p>How often the two raters actually matched.</p></div>
+        <div class="cell"><div class="t">p_e</div><h3 style="margin:6px 0">Expected by chance</h3><p>How often they’d match just from their base rates.</p></div>
+        <div class="cell"><div class="t">κ</div><h3 style="margin:6px 0">Beyond chance</h3><p>1 = perfect · 0 = no better than guessing.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>The calculator</h2>
+      <p class="muted" style="margin-bottom:18px">Edit any cell, or load a preset. Watch how high agreement can still give a low κ.</p>
+      <KappaCalculator />
+      <p class="note" style="margin-top:14px">Try <strong>“Good judge”</strong> (85% agreement → κ = 0.70) then <strong>“Kappa paradox”</strong> (90% agreement → κ = 0.44). Same-looking agreement, very different trust.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>From the judge walkthrough → a real number</h2>
+      <p class="muted">Here’s the judge from <a href={base + 'judge'}>Lab 01</a> run on {dataset.length} support replies that a human also graded. The confusion matrix and κ are computed live from the table:</p>
+
+      <div class="grid c2" style="margin-top:18px">
+        <div class="cell">
+          <div class="t">CONFUSION MATRIX (HUMAN × JUDGE)</div>
+          <table class="data" style="margin-top:10px">
+            <tr><th></th><th>Judge: pass</th><th>Judge: fail</th></tr>
+            <tr><th style="background:#fff; color:var(--ink)">Human: pass</th><td><strong>{m[0][0]}</strong></td><td>{m[0][1]}</td></tr>
+            <tr><th style="background:#fff; color:var(--ink)">Human: fail</th><td>{m[1][0]}</td><td><strong>{m[1][1]}</strong></td></tr>
+          </table>
+        </div>
+        <div class="cell">
+          <div class="t">RESULT</div>
+          <p style="margin-top:10px">p<sub>o</sub> = <strong>{f2(po)}</strong> · p<sub>e</sub> = <strong>{f2(pe)}</strong></p>
+          <div style="font-size:54px; font-weight:800; letter-spacing:-0.04em; color:{band.color}; line-height:1.1">κ = {f2(k)}</div>
+          <p style="font-weight:700; color:{band.color}">{band.label.toUpperCase()}</p>
+          <p class="note" style="margin-top:8px">Substantial agreement — this judge is trustworthy enough to scale, while keeping an eye on the cases it over-grades.</p>
+        </div>
+      </div>
+
+      <details style="margin-top:20px">
+        <summary style="cursor:pointer; font-weight:600">See all {dataset.length} graded items</summary>
+        <table class="data" style="margin-top:12px">
+          <tr><th>#</th><th>Prompt</th><th>Human</th><th>Judge</th><th>Note</th></tr>
+          {dataset.map((d) => (
+            <tr>
+              <td>{d.id}</td>
+              <td>{d.prompt}</td>
+              <td style={d.human === d.judge ? '' : 'color:var(--accent); font-weight:700'}>{d.human}</td>
+              <td style={d.human === d.judge ? '' : 'color:var(--accent); font-weight:700'}>{d.judge}</td>
+              <td class="note">{d.note}</td>
+            </tr>
+          ))}
+        </table>
+      </details>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>Reading the number</h2>
+      <table class="data" style="margin-top:8px; max-width:520px">
+        <tr><th>κ</th><th>Landis &amp; Koch</th></tr>
+        <tr><td>&lt; 0.00</td><td>Poor</td></tr>
+        <tr><td>0.01–0.20</td><td>Slight</td></tr>
+        <tr><td>0.21–0.40</td><td>Fair</td></tr>
+        <tr><td>0.41–0.60</td><td>Moderate</td></tr>
+        <tr><td>0.61–0.80</td><td>Substantial</td></tr>
+        <tr><td>0.81–1.00</td><td>Almost perfect</td></tr>
+      </table>
+      <p class="callout" style="margin-top:20px">Always report <strong>both</strong> raw agreement and κ — and watch your class balance. On imbalanced data, κ turns harsh (that’s the paradox).</p>
+    </div>
+  </section>
+</Base>

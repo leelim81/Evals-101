@@ -1,0 +1,23 @@
+{
+  "name": "evals-101",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Teaching kit on LLM evaluations: an animated Slidev deck (theory) + an interactive Astro demo site (worked examples). Swiss modern typography.",
+  "scripts": {
+    "dev:slides": "pnpm --filter slides dev",
+    "dev:demo": "pnpm --filter demo dev",
+    "build:slides": "pnpm --filter slides build",
+    "build:demo": "pnpm --filter demo build",
+    "build": "pnpm build:slides && pnpm build:demo && node scripts/assemble-dist.mjs",
+    "export:pdf": "pnpm --filter slides export:pdf",
+    "export:pptx": "pnpm --filter slides export:pptx",
+    "test": "pnpm --filter demo test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp"]
+  }
+}

@@ -1,0 +1,55 @@
+---
+import '../styles/swiss.css';
+import 'katex/dist/katex.min.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  active?: 'home' | 'judge' | 'kappa' | 'moonshot';
+}
+const { title, description = 'Interactive labs for the Evals 101 LLM-evaluation briefing.', active = 'home' } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/'; // e.g. /Evals-101/demo/
+const link = (p: string) => base + p;
+const slidesUrl = base.replace(/demo\/$/, 'slides/');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} — Evals 101</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-head">
+      <div class="wrap">
+        <a class="brand" href={link('')} style="color:inherit">Evals<span class="dot">.</span>101</a>
+        <nav>
+          <a href={link('')} class={active === 'home' ? 'active' : ''}>Labs</a>
+          <a href={link('judge')} class={active === 'judge' ? 'active' : ''}>Judge</a>
+          <a href={link('kappa')} class={active === 'kappa' ? 'active' : ''}>Kappa</a>
+          <a href={link('moonshot')} class={active === 'moonshot' ? 'active' : ''}>Moonshot</a>
+          <a href={slidesUrl} class="slides">Slides ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap">
+        <span>Evals 101 — interactive labs · companion to the slide deck.</span>
+        <span><a href={slidesUrl}>← Back to the slides</a></span>
+      </div>
+    </footer>
+  </body>
+</html>
