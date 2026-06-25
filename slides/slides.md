@@ -9,6 +9,9 @@ class: cover
 transition: slide-left
 mdc: true
 colorSchema: light
+# Hash routing keeps every slide under the single served path
+# /Evals-101/slides/ (e.g. #/2), so GitHub Pages needs no per-slide SPA
+# fallback. Requires @slidev/cli pinned < 52.16 — see slides/package.json.
 routerMode: hash
 fonts:
   sans: Inter

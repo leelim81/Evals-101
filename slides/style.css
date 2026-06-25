@@ -99,7 +99,9 @@ table.mini td.diag { background: #f6d8d6; font-weight: 700; }
 .slidev-layout.section .rule-accent { background: var(--accent); }
 
 /* Cover */
-.slidev-layout.cover h1 { font-size: 5.4rem; }
+/* Bigger display size needs looser leading than the global 0.98, or the two
+   <br>-separated lines collide ("Evaluating" overlapping "Large Language…"). */
+.slidev-layout.cover h1 { font-size: 5.4rem; line-height: 1.05; }
 .slidev-layout.cover { padding-top: 3.5rem; }
 
 /* Quote / callout */
