@@ -47,13 +47,15 @@ export interface Band {
 }
 
 // Landis & Koch (1977) interpretation bands.
+// Colors are tuned bright enough to read on the demo's dark background, while
+// still mapping poor→gray, low→amber/orange, high→green.
 const BANDS: Band[] = [
-  { label: 'Poor', min: -Infinity, max: 0.0, color: '#8a8a84' },
-  { label: 'Slight', min: 0.0, max: 0.2, color: '#b08a3e' },
-  { label: 'Fair', min: 0.2, max: 0.4, color: '#c9762e' },
-  { label: 'Moderate', min: 0.4, max: 0.6, color: '#d8531f' },
-  { label: 'Substantial', min: 0.6, max: 0.8, color: '#1f8a4c' },
-  { label: 'Almost perfect', min: 0.8, max: 1.0001, color: '#0f6b3a' },
+  { label: 'Poor', min: -Infinity, max: 0.0, color: '#9a9a93' },
+  { label: 'Slight', min: 0.0, max: 0.2, color: '#d4a955' },
+  { label: 'Fair', min: 0.2, max: 0.4, color: '#e8893f' },
+  { label: 'Moderate', min: 0.4, max: 0.6, color: '#ff6a4d' },
+  { label: 'Substantial', min: 0.6, max: 0.8, color: '#36c46f' },
+  { label: 'Almost perfect', min: 0.8, max: 1.0001, color: '#4ade80' },
 ];
 
 export function landisKoch(k: number): Band {

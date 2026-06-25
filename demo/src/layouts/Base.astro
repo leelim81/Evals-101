@@ -36,7 +36,7 @@ const slidesUrl = base.replace(/demo\/$/, 'slides/');
           <a href={link('judge')} class={active === 'judge' ? 'active' : ''}>Judge</a>
           <a href={link('kappa')} class={active === 'kappa' ? 'active' : ''}>Kappa</a>
           <a href={link('moonshot')} class={active === 'moonshot' ? 'active' : ''}>Moonshot</a>
-          <a href={slidesUrl} class="slides">Slides ↗</a>
+          <a href={slidesUrl} class="slides" data-slides-link>Slides ↗</a>
         </nav>
       </div>
     </header>
@@ -48,8 +48,24 @@ const slidesUrl = base.replace(/demo\/$/, 'slides/');
     <footer class="site-foot">
       <div class="wrap">
         <span>Evals 101 — interactive labs · companion to the slide deck.</span>
-        <span><a href={slidesUrl}>← Back to the slides</a></span>
+        <span><a href={slidesUrl} data-slides-link>← Back to the slides</a></span>
       </div>
     </footer>
+
+    <!-- Resume the deck where the user left off: rewrite any link back to the
+         slides so it carries the last-viewed slide (#/N) saved by the deck.
+         Same-origin localStorage is shared between /demo and /slides. -->
+    <script is:inline>
+      (function () {
+        try {
+          var n = localStorage.getItem('evals101:lastSlide');
+          if (!n || !/^\d+$/.test(n)) return;
+          document.querySelectorAll('a[data-slides-link]').forEach(function (a) {
+            var base = (a.getAttribute('href') || '').replace(/#.*$/, '');
+            a.setAttribute('href', base + '#/' + n);
+          });
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
   </body>
 </html>

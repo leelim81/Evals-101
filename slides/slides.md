@@ -25,11 +25,11 @@ fonts:
 
 <div class="rule-accent"></div>
 
-<p class="muted" style="font-size:1.35rem; max-width:42ch">
+<p class="muted" style="font-size:1.2rem; max-width:42ch; margin-bottom:0">
 How do we know an AI system is <strong>actually good</strong> — and prove it?
 </p>
 
-<div style="margin-top:2.2rem">
+<div style="margin-top:1.2rem">
   <span class="pill">LLM-as-a-Judge</span>
   <span class="pill">Cohen's Kappa</span>
   <span class="pill">Judge biases</span>

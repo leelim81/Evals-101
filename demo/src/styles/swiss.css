@@ -1,15 +1,21 @@
 /* ──────────────────────────────────────────────────────────────
    Evals 101 — shared Swiss modern design tokens for the demo site.
-   Matches the deck: paper background, single red accent, tight grotesque type.
+   DARK theme: the demo is deliberately dark to differentiate it from the
+   light (paper) slide deck. Single red accent, tight grotesque type.
+   Note: --ink is the light foreground AND doubles as the inverted "slab"
+   surface (active nav, solid buttons, table headers) — light-on-dark by
+   design, so those slabs read as light chips with dark (--paper) text.
+   pre.code is overridden to a true-dark surface below.
    ────────────────────────────────────────────────────────────── */
 :root {
-  --ink: #0a0a0a;
-  --paper: #f4f4f0;
-  --paper-2: #ffffff;
-  --accent: #e2231a;
-  --muted: #6b6b66;
-  --line: #d8d8d2;
-  --good: #1f8a4c;
+  --ink: #f2f1ec;        /* light foreground / inverted slab */
+  --paper: #0d0d10;      /* page background */
+  --paper-2: #18181c;    /* elevated surface (panels, cards-on-dark) */
+  --surface-3: #26262c;  /* hover lift on dark surfaces */
+  --accent: #ff4438;     /* red, brightened for contrast on dark */
+  --muted: #9a9a93;
+  --line: #2b2b31;
+  --good: #36c46f;
   --maxw: 1140px;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
 }
@@ -22,6 +28,9 @@ body {
   color: var(--ink);
   letter-spacing: -0.011em;
   line-height: 1.55;
+  /* Render native form controls (the κ-matrix number inputs), scrollbars,
+     etc. in dark mode so they don't fall back to white fields. */
+  color-scheme: dark;
 }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -36,8 +45,8 @@ code, kbd { font-family: var(--mono); }
 .site-head .brand .dot { color: var(--accent); }
 .site-head nav { display: flex; gap: 4px; }
 .site-head nav a { color: var(--ink); font-size: 13px; font-weight: 600; padding: 6px 11px; border-radius: 999px; letter-spacing: 0; }
-.site-head nav a:hover { background: #fff; text-decoration: none; }
-.site-head nav a.active { background: var(--ink); color: #fff; }
+.site-head nav a:hover { background: var(--surface-3); text-decoration: none; }
+.site-head nav a.active { background: var(--ink); color: var(--paper); }
 .site-head nav a.slides { color: var(--accent); }
 
 /* Page header block */
@@ -47,7 +56,7 @@ code, kbd { font-family: var(--mono); }
 h1 { font-size: clamp(40px, 6.5vw, 76px); line-height: 0.95; font-weight: 800; letter-spacing: -0.04em; }
 h2 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 700; letter-spacing: -0.03em; margin: 0 0 14px; }
 h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
-.lede { margin-top: 22px; max-width: 64ch; font-size: clamp(17px, 1.9vw, 20px); color: #1c1c1c; }
+.lede { margin-top: 22px; max-width: 64ch; font-size: clamp(17px, 1.9vw, 20px); color: #d8d8d2; }
 .muted { color: var(--muted); }
 .accent { color: var(--accent); }
 
@@ -56,8 +65,8 @@ section.block:last-child { border-bottom: none; }
 
 /* Buttons / chips */
 .btn { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; border: 1px solid var(--ink); background: var(--paper-2); color: var(--ink); padding: 9px 15px; border-radius: 999px; cursor: pointer; transition: all .15s ease; }
-.btn:hover { background: var(--ink); color: #fff; text-decoration: none; }
-.btn.solid { background: var(--ink); color: #fff; }
+.btn:hover { background: var(--ink); color: var(--paper); text-decoration: none; }
+.btn.solid { background: var(--ink); color: var(--paper); }
 .btn.solid:hover { background: var(--accent); border-color: var(--accent); }
 .btn.accent { border-color: var(--accent); color: var(--accent); }
 .btn.accent:hover { background: var(--accent); color: #fff; }
@@ -78,16 +87,16 @@ section.block:last-child { border-bottom: none; }
 .callout { border-left: 4px solid var(--accent); padding: 6px 0 6px 16px; font-size: 19px; font-weight: 500; }
 .note { font-size: 14px; color: var(--muted); }
 
-/* Code block */
-pre.code { background: var(--ink); color: #f4f4f0; padding: 16px 18px; border-radius: 6px; overflow-x: auto; font-family: var(--mono); font-size: 13.5px; line-height: 1.6; }
+/* Code block — true-dark surface, distinct from the page */
+pre.code { background: #050507; color: #e8e8e3; border: 1px solid var(--line); padding: 16px 18px; border-radius: 6px; overflow-x: auto; font-family: var(--mono); font-size: 13.5px; line-height: 1.6; }
 pre.code .k { color: #ff8a80; }
 pre.code .s { color: #b9f6ca; }
 
 /* Tables */
 table.data { border-collapse: collapse; width: 100%; font-size: 14px; }
 table.data th, table.data td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
-table.data th { background: var(--ink); color: #fff; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
-table.data tr:nth-child(even) td { background: #fff; }
+table.data th { background: var(--ink); color: var(--paper); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+table.data tr:nth-child(even) td { background: var(--paper-2); }
 
 /* Footer */
 .site-foot { padding: 32px 0; font-size: 13px; color: var(--muted); }

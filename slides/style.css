@@ -100,9 +100,12 @@ table.mini td.diag { background: #f6d8d6; font-weight: 700; }
 
 /* Cover */
 /* Bigger display size needs looser leading than the global 0.98, or the two
-   <br>-separated lines collide ("Evaluating" overlapping "Large Language…"). */
-.slidev-layout.cover h1 { font-size: 5.4rem; line-height: 1.05; }
-.slidev-layout.cover { padding-top: 3.5rem; }
+   <br>-separated lines collide ("Evaluating" overlapping "Large Language…").
+   Sizes/margins are kept compact so the kicker → title → rule → lede → pills
+   stack clears the absolutely-positioned .foot-tag at the bottom. */
+.slidev-layout.cover { padding-top: 2.1rem; padding-bottom: 3.4rem; }
+.slidev-layout.cover .kicker { margin-bottom: 1rem; }
+.slidev-layout.cover h1 { font-size: 4.6rem; line-height: 1.04; margin-bottom: 0.7rem; }
 
 /* Quote / callout */
 .callout { border-left: 4px solid var(--accent); padding: 0.4rem 0 0.4rem 1.1rem; font-size: 1.35rem; font-weight: 500; }
