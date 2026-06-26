@@ -439,12 +439,13 @@ Read it as: <strong>"of the agreement that wasn't guaranteed by luck, how much d
 <div>
 
 <table class="mini">
-  <tr><th></th><th>Judge: PASS</th><th>Judge: FAIL</th></tr>
-  <tr><th>Human: PASS</th><td class="diag">45</td><td>10</td></tr>
-  <tr><th>Human: FAIL</th><td>5</td><td class="diag">40</td></tr>
+  <tr><th></th><th>Judge: PASS</th><th>Judge: FAIL</th><th>Total</th></tr>
+  <tr><th>Human: PASS</th><td class="diag">45</td><td>10</td><th>55</th></tr>
+  <tr><th>Human: FAIL</th><td>5</td><td class="diag">40</td><th>45</th></tr>
+  <tr><th>Total</th><th>50</th><th>50</th><th>100</th></tr>
 </table>
 
-<p class="muted" style="margin-top:1rem; font-size:0.95rem">Diagonals = they agreed (85 of 100).</p>
+<p class="muted" style="margin-top:1rem; font-size:0.95rem">Diagonals = they agreed (85 of 100). The <strong>Total</strong> row/column are each rater's base rates.</p>
 
 </div>
 <div>
@@ -453,7 +454,11 @@ Read it as: <strong>"of the agreement that wasn't guaranteed by luck, how much d
 <p>p<sub>o</sub> = (45 + 40) / 100 = <strong>0.85</strong></p>
 </div>
 <div v-click>
-<p>p<sub>e</sub> = <strong>0.50</strong> <span class="muted">(from each rater's pass/fail rate)</span></p>
+<p style="margin-bottom:0.1rem">p<sub>e</sub> = <strong>0.50</strong> <span class="muted">— how often they'd agree by luck:</span></p>
+<p class="muted" style="font-size:0.92rem; line-height:1.4">
+Human says PASS 55%, Judge 50% → both PASS = 0.55 × 0.50 = 0.275.<br>
+Both FAIL = 0.45 × 0.50 = 0.225. &nbsp;Add them: <strong>0.275 + 0.225 = 0.50</strong>.
+</p>
 </div>
 <div v-click>
 <p style="font-size:1.4rem">κ = (0.85 − 0.50) / (1 − 0.50) = <span class="accent"><strong>0.70</strong></span></p>
