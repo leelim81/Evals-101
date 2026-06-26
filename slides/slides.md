@@ -100,7 +100,7 @@ transition: fade
   <div class="card">
     <div class="ct">DETERMINISTIC</div>
     <h4>Code-based metrics</h4>
-    <p>Exact match, F1, BLEU/ROUGE. Fast, free, repeatable — but only when there's one right answer.</p>
+    <p>Exact match, F1, BLEU/ROUGE. Fast, free, repeatable — but only when answers are constrained to one (or a few) known-good targets.</p>
   </div>
   <div class="card">
     <div class="ct">HUMAN</div>
