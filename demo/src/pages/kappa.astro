@@ -68,8 +68,8 @@ const f2 = (x: number) => (Math.round(x * 100) / 100).toFixed(2);
           <div class="t">CONFUSION MATRIX (HUMAN × JUDGE)</div>
           <table class="data" style="margin-top:10px">
             <tr><th></th><th>Judge: pass</th><th>Judge: fail</th></tr>
-            <tr><th style="background:#fff; color:var(--ink)">Human: pass</th><td><strong>{m[0][0]}</strong></td><td>{m[0][1]}</td></tr>
-            <tr><th style="background:#fff; color:var(--ink)">Human: fail</th><td>{m[1][0]}</td><td><strong>{m[1][1]}</strong></td></tr>
+            <tr><th class="rowh">Human: pass</th><td><strong>{m[0][0]}</strong></td><td>{m[0][1]}</td></tr>
+            <tr><th class="rowh">Human: fail</th><td>{m[1][0]}</td><td><strong>{m[1][1]}</strong></td></tr>
           </table>
         </div>
         <div class="cell">

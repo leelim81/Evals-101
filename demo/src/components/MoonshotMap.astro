@@ -80,7 +80,11 @@ const steps = [
   .run-steps li { padding: 9px 12px; border-left: 3px solid var(--line); margin: 6px 0; font-size: 14px; color: var(--muted); transition: all .2s ease; }
   .run-steps li.on { border-left-color: var(--accent); color: var(--ink); background: var(--paper); font-weight: 600; }
   .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
-  @media (max-width: 760px) { .moon-grid, .modes { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) {
+    .moon-grid, .modes { grid-template-columns: 1fr; }
+    .pipeline { flex-direction: column; }
+    .node::after { content: ""; }
+  }
 </style>
 
 <script>

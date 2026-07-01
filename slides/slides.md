@@ -45,17 +45,6 @@ Look for the ▶ chips that link to a demo.
 -->
 
 ---
-layout: center
-class: text-center
----
-
-<div class="callout" style="font-size:2.2rem; border:none; max-width:24ch; margin:0 auto; text-align:left">
-"If you can't <span class="accent">measure</span> it,<br>you can't <span class="accent">improve</span> it."
-</div>
-
-<p class="muted" style="margin-top:1.5rem">— and you certainly can't ship it with confidence.</p>
-
----
 
 <div class="kicker">The problem</div>
 
@@ -276,14 +265,14 @@ Rule of thumb: humans (and LLMs) are <strong>better at comparing</strong> than a
 <div class="grid grid-cols-2 gap-10" style="margin-top:0.4rem">
 <div>
 <ul>
-  <li v-click><strong>Role + task context</strong> — what is being graded and why</li>
-  <li v-click><strong>An explicit rubric</strong> — define each score level, not just "rate 1–5"</li>
-  <li v-click><strong>Concrete criteria</strong> — correctness, helpfulness, safety, tone…</li>
-  <li v-click><strong>Reason before score</strong> — make it explain first, then commit</li>
-  <li v-click><strong>Structured output</strong> — JSON you can parse and aggregate</li>
+  <li><strong>Role + task context</strong> — what is being graded and why</li>
+  <li><strong>An explicit rubric</strong> — define each score level, not just "rate 1–5"</li>
+  <li><strong>Concrete criteria</strong> — correctness, helpfulness, safety, tone…</li>
+  <li><strong>Reason before score</strong> — make it explain first, then commit</li>
+  <li><strong>Structured output</strong> — JSON you can parse and aggregate</li>
 </ul>
 </div>
-<div v-click="3">
+<div v-click>
 
 <p class="callout">
 Vague rubric in → noisy scores out. The rubric <em>is</em> the eval.
@@ -355,14 +344,14 @@ a real support-ticket example, prompt and verdict revealed step by step.
 ## Keeping the judge honest
 
 <ul>
-  <li v-click><strong>Randomise &amp; swap order</strong> — run A/B and B/A; only trust a winner that survives both</li>
-  <li v-click><strong>Anchor with references</strong> — give a gold answer or few-shot examples to calibrate</li>
-  <li v-click><strong>Control for length</strong> — instruct "ignore length"; sanity-check the length/score correlation</li>
-  <li v-click><strong>Use a different model as judge</strong> — reduce self-preference</li>
-  <li v-click><strong>Ensemble &amp; aggregate</strong> — multiple judges or repeated runs, then take a majority/mean</li>
+  <li><strong>Randomise &amp; swap order</strong> — run A/B and B/A; only trust a winner that survives both</li>
+  <li><strong>Anchor with references</strong> — give a gold answer or few-shot examples to calibrate</li>
+  <li><strong>Control for length</strong> — instruct "ignore length"; sanity-check the length/score correlation</li>
+  <li><strong>Use a different model as judge</strong> — reduce self-preference</li>
+  <li><strong>Ensemble &amp; aggregate</strong> — multiple judges or repeated runs, then take a majority/mean</li>
 </ul>
 
-<p v-click="3" class="callout" style="margin-top:1.2rem">
+<p v-click class="callout" style="margin-top:1.2rem">
 But every mitigation begs the real question: <span class="accent">how do we know the judge is right at all?</span>
 </p>
 
@@ -494,7 +483,7 @@ Both FAIL = 0.45 × 0.50 = 0.225. &nbsp;Add them: <strong>0.275 + 0.225 = 0.50</
 <p style="font-size:1.4rem">κ = (0.85 − 0.50) / (1 − 0.50) = <span class="accent"><strong>0.70</strong></span></p>
 </div>
 
-<p v-click="4" style="margin-top:1.2rem">
+<p style="margin-top:1.2rem">
 <a class="demo-chip" href="../demo/kappa/">Try the live Kappa calculator</a>
 </p>
 
@@ -549,18 +538,20 @@ These bands are a <strong>convention, not a law</strong> — but "aim for ≥ 0.
 </div>
 <div>
 
-<div v-click><p>p<sub>o</sub> = <strong>0.90</strong> &nbsp;😀</p></div>
-<div v-click><p>p<sub>e</sub> = <strong>0.82</strong> <span class="muted">(almost everything is "pass")</span></p></div>
-<div v-click><p style="font-size:1.4rem">κ = (0.90 − 0.82)/(1 − 0.82) = <span class="accent"><strong>0.44</strong></span></p></div>
+<div v-click>
+<p>p<sub>o</sub> = <strong>0.90</strong> &nbsp;😀</p>
+<p style="margin-top:0.3rem">p<sub>e</sub> = <strong>0.82</strong> <span class="muted">(almost everything is "pass")</span></p>
+</div>
+<div v-click><p style="font-size:1.4rem; margin-top:0.3rem">κ = (0.90 − 0.82)/(1 − 0.82) = <span class="accent"><strong>0.44</strong></span></p></div>
 
-<p v-click="4" class="callout" style="margin-top:1rem">
+<p v-click class="callout" style="margin-top:1rem">
 90% agreement → only <span class="accent">"moderate"</span> κ. When one class dominates, kappa gets harsh.
 </p>
 
 </div>
 </div>
 
-<p v-click="5" style="margin-top:0.6rem">
+<p style="margin-top:0.6rem">
 <a class="demo-chip" href="../demo/kappa/">Load the "paradox" preset</a>
 </p>
 
@@ -592,13 +583,13 @@ Same idea throughout: <strong>agreement, corrected for chance</strong>. Pick the
 ## The judge-validation loop
 
 <div class="grid grid-cols-4 gap-3" style="margin-top:1rem; text-align:center">
-  <div v-click class="card"><div class="ct">1</div><h4>Sample &amp; label</h4><p>Humans grade a real slice.</p></div>
-  <div v-click class="card"><div class="ct">2</div><h4>Run the judge</h4><p>Same items, same rubric.</p></div>
-  <div v-click class="card"><div class="ct">3</div><h4>Measure κ</h4><p>Agreement beyond chance.</p></div>
-  <div v-click class="card"><div class="ct">4</div><h4>Trust or fix</h4><p>κ high → scale. Low → fix rubric, repeat.</p></div>
+  <div class="card"><div class="ct">1</div><h4>Sample &amp; label</h4><p>Humans grade a real slice.</p></div>
+  <div class="card"><div class="ct">2</div><h4>Run the judge</h4><p>Same items, same rubric.</p></div>
+  <div class="card"><div class="ct">3</div><h4>Measure κ</h4><p>Agreement beyond chance.</p></div>
+  <div class="card"><div class="ct">4</div><h4>Trust or fix</h4><p>κ high → scale. Low → fix rubric, repeat.</p></div>
 </div>
 
-<p v-click="5" class="callout" style="margin-top:1.8rem">
+<p v-click class="callout" style="margin-top:1.8rem">
 Once κ is high, the judge runs on <span class="accent">thousands</span> of items while the humans go home.
 </p>
 
@@ -701,7 +692,7 @@ Same foundation, different era: AI Verify for classic models, <strong>Moonshot f
   <li v-click><strong>Baseline testing</strong> — a safety floor before you ship</li>
 </ul>
 
-<p v-click="4" style="margin-top:1.2rem">
+<p style="margin-top:1.2rem">
 <a class="demo-chip" href="../demo/moonshot/">Explore the Moonshot map</a>
 </p>
 
@@ -867,12 +858,12 @@ red-teaming = safety. Both belong in your harness.
 ## Six takeaways
 
 <ul>
-  <li v-click>Open-ended outputs need <strong>judgement</strong>, not string-matching.</li>
-  <li v-click><strong>LLM-as-a-judge</strong> gives human-like grading at machine speed — if you write a real rubric.</li>
-  <li v-click>Judges are <strong>biased</strong> (order, length, self-preference). Design around it.</li>
-  <li v-click>Never trust a judge you haven't <strong>validated against humans</strong> — and use <strong>Cohen's Kappa</strong>, not raw %.</li>
-  <li v-click>Risk is <strong>context-specific</strong>. Build <strong>your own</strong> evals; let AI Verify / Moonshot inspire the structure.</li>
-  <li v-click>Evals aren't a one-off: <strong>wire them into CI</strong>, curate the golden set, and <strong>red-team</strong> before you ship.</li>
+  <li>Open-ended outputs need <strong>judgement</strong>, not string-matching.</li>
+  <li><strong>LLM-as-a-judge</strong> gives human-like grading at machine speed — if you write a real rubric.</li>
+  <li>Judges are <strong>biased</strong> (order, length, self-preference). Design around it.</li>
+  <li>Never trust a judge you haven't <strong>validated against humans</strong> — and use <strong>Cohen's Kappa</strong>, not raw %.</li>
+  <li>Risk is <strong>context-specific</strong>. Build <strong>your own</strong> evals; let AI Verify / Moonshot inspire the structure.</li>
+  <li>Evals aren't a one-off: <strong>wire them into CI</strong>, curate the golden set, and <strong>red-team</strong> before you ship.</li>
 </ul>
 
 ---
@@ -899,34 +890,6 @@ Now go measure something. <span class="accent">Thank you.</span>
 </p>
 
 <div class="foot-tag">Evals 101 · End of main deck — appendix follows</div>
-
----
-layout: center
-class: text-center
----
-
-<div class="kicker">Appendix</div>
-
-## The kappa arithmetic, in full
-
-<div style="text-align:left; max-width:42ch; margin:0 auto; font-size:1.05rem">
-
-For the worked example — matrix `[[45,10],[5,40]]`:
-
-- Human says PASS: 55/100 → **0.55**; Judge says PASS: 50/100 → **0.50**
-- Chance of both PASS = 0.55 × 0.50 = **0.275**
-- Chance of both FAIL = 0.45 × 0.50 = **0.225**
-- p<sub>e</sub> = 0.275 + 0.225 = **0.50**
-- p<sub>o</sub> = (45 + 40)/100 = **0.85**
-- κ = (0.85 − 0.50) / (1 − 0.50) = **0.70**
-
-</div>
-
-<p class="muted" style="margin-top:1.4rem; font-size:0.95rem">
-p<sub>e</sub> multiplies each rater's marginal rates — that's the "by chance" model kappa corrects for.
-</p>
-
-<div class="foot-tag">Evals 101 · Appendix</div>
 
 ---
 
@@ -962,10 +925,10 @@ p<sub>e</sub> multiplies each rater's marginal rates — that's the "by chance" 
 ## Fine print &amp; honest caveats
 
 <ul style="font-size:1.02rem; line-height:1.5; max-width:60ch">
-  <li v-click><strong>Reference-guided</strong> grading is really a <em>variant</em> of single-answer grading (the judge is handed a gold answer) — not a separate third axis.</li>
-  <li v-click><strong>Fleiss' κ</strong> extends to a whole panel but is <em>nominal-only</em> and assumes a fixed number of ratings per item; <strong>Krippendorff's α</strong> is the more general tool.</li>
-  <li v-click><strong>Formatting / markdown bias</strong> is documented in <em>later</em> work — not the original MT-Bench paper.</li>
-  <li v-click><strong>Landis–Koch bands are arbitrary</strong> (the authors said as much). Always read κ <em>next to</em> the confusion matrix — remember the paradox.</li>
+  <li><strong>Reference-guided</strong> grading is really a <em>variant</em> of single-answer grading (the judge is handed a gold answer) — not a separate third axis.</li>
+  <li><strong>Fleiss' κ</strong> extends to a whole panel but is <em>nominal-only</em> and assumes a fixed number of ratings per item; <strong>Krippendorff's α</strong> is the more general tool.</li>
+  <li><strong>Formatting / markdown bias</strong> is documented in <em>later</em> work — not the original MT-Bench paper.</li>
+  <li><strong>Landis–Koch bands are arbitrary</strong> (the authors said as much). Always read κ <em>next to</em> the confusion matrix — remember the paradox.</li>
 </ul>
 
 <div class="foot-tag">Evals 101 · Appendix</div>

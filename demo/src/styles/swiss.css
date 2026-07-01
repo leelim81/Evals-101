@@ -98,6 +98,14 @@ table.data th, table.data td { border: 1px solid var(--line); padding: 8px 12px;
 table.data th { background: var(--ink); color: var(--paper); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
 table.data tr:nth-child(even) td { background: var(--paper-2); }
 
+/* Disclosure (details/summary) — dark, custom marker */
+details { border: 1px solid var(--line); border-radius: 6px; background: var(--paper-2); padding: 2px 16px; }
+summary { list-style: none; padding: 12px 0; color: var(--ink); font-weight: 600; cursor: pointer; user-select: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "▸"; color: var(--accent); display: inline-block; width: 1.3em; transition: transform .15s ease; }
+details[open] summary::before { transform: rotate(90deg); }
+summary:hover { color: var(--accent); }
+
 /* Footer */
 .site-foot { padding: 32px 0; font-size: 13px; color: var(--muted); }
 .site-foot .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
