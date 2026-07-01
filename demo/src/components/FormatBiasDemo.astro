@@ -1,0 +1,81 @@
+---
+import { formatTask, plain, formatted, formatBiasNote } from '../data/formatBiasExample';
+---
+<div class="fbias" data-fbias>
+  <script type="application/json" data-fdata set:html={JSON.stringify({ plain, formatted, note: formatBiasNote })}></script>
+
+  <p class="note" style="margin-bottom:10px">{formatTask.context}</p>
+  <div class="panel" style="margin-bottom:16px">{formatTask.question}</div>
+
+  <div class="step-buttons" style="margin-bottom:16px; align-items:center">
+    <button class="btn order" data-variant="plain" aria-pressed="true">Plain prose</button>
+    <button class="btn order" data-variant="formatted" aria-pressed="false">Formatted — same content</button>
+    <span class="same-badge">◆ identical facts</span>
+  </div>
+
+  <div class="grid c2" style="margin-top:0">
+    <div class="cell">
+      <div class="t">THE ANSWER</div>
+      <div data-answer style="color:var(--ink); font-size:14px; line-height:1.55; margin-top:8px"></div>
+    </div>
+    <div class="cell">
+      <div class="t">JUDGE VERDICT</div>
+      <div class="fscore"><span data-overall></span> <span class="outof">/ 5 overall</span></div>
+      <div class="subscores note" data-sub style="margin-top:2px"></div>
+      <p class="note" data-reason style="margin-top:10px; color:var(--ink)"></p>
+    </div>
+  </div>
+
+  <p class="callout" data-note hidden style="margin-top:18px"></p>
+</div>
+
+<style>
+  .fbias .same-badge { font-family: var(--mono); font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; letter-spacing: 0.03em; }
+  .fbias .fscore { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-top: 6px; }
+  .fbias .fscore .outof { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+  .fbias .subscores { font-family: var(--mono); font-size: 12px; }
+  .fbias [data-answer] code { background: #050507; border: 1px solid var(--line); border-radius: 3px; padding: 1px 5px; font-size: 12.5px; }
+  .fbias [data-answer] ol { color: var(--ink); }
+</style>
+
+<script>
+  type Variant = {
+    id: string; label: string; html: string;
+    scores: { correctness: number; completeness: number; clarity: number; overall: number };
+    reason: string;
+  };
+  type FData = { plain: Variant; formatted: Variant; note: string };
+
+  document.querySelectorAll<HTMLElement>('[data-fbias]').forEach((root) => {
+    const data = JSON.parse(root.querySelector('[data-fdata]')!.textContent || '{}') as FData;
+    const variants: Record<string, Variant> = { plain: data.plain, formatted: data.formatted };
+
+    const answerEl = root.querySelector<HTMLElement>('[data-answer]')!;
+    const overallEl = root.querySelector<HTMLElement>('[data-overall]')!;
+    const subEl = root.querySelector<HTMLElement>('[data-sub]')!;
+    const reasonEl = root.querySelector<HTMLElement>('[data-reason]')!;
+    const noteEl = root.querySelector<HTMLElement>('[data-note]')!;
+    noteEl.textContent = data.note;
+    const seen = new Set<string>();
+
+    function pick(id: string) {
+      const v = variants[id];
+      if (!v) return;
+      root.querySelectorAll<HTMLButtonElement>('[data-variant]').forEach((b) =>
+        b.setAttribute('aria-pressed', String(b.dataset.variant === id)),
+      );
+      answerEl.innerHTML = v.html;
+      answerEl.style.whiteSpace = id === 'plain' ? 'pre-line' : 'normal';
+      overallEl.textContent = String(v.scores.overall);
+      subEl.textContent = `correctness ${v.scores.correctness} · completeness ${v.scores.completeness} · clarity ${v.scores.clarity}`;
+      reasonEl.textContent = v.reason;
+      seen.add(id);
+      if (seen.size === 2) noteEl.hidden = false;
+    }
+
+    root.querySelectorAll<HTMLButtonElement>('[data-variant]').forEach((b) =>
+      b.addEventListener('click', () => pick(b.dataset.variant!)),
+    );
+    pick('plain');
+  });
+</script>

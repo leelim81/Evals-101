@@ -320,6 +320,36 @@ a real support-ticket example, prompt and verdict revealed step by step.
 
 ---
 
+<div class="kicker">The catch · one bias, up close</div>
+
+## Format bias: styling ≠ substance
+
+<div class="grid grid-cols-2 gap-8" style="margin-top:0.6rem; align-items:stretch">
+<div>
+
+<div class="cardrow cols-2">
+  <div class="card"><div class="ct">PLAIN PROSE</div><h4>Overall 3 / 5</h4><p>All the right steps — in one dense paragraph.</p></div>
+  <div class="card"><div class="ct">FORMATTED · SAME FACTS</div><h4 class="accent">Overall 5 / 5</h4><p>Identical content with a heading, <strong>bold</strong>, and a numbered list.</p></div>
+</div>
+
+</div>
+<div>
+
+<p style="font-size:1.15rem; line-height:1.5">Every fact is the same — same steps, same CSV/JSON, same 24-hour expiry. Only the <strong>markdown</strong> changed, yet the judge scored it two points higher.</p>
+
+<p class="muted" style="margin-top:0.8rem">The judge rewarded <strong>presentation, not correctness</strong>. Fix: instruct it to ignore formatting &amp; length, or normalise formatting before grading — then watch the length/score correlation.</p>
+
+</div>
+</div>
+
+<p v-click style="margin-top:1.2rem">
+<a class="demo-chip" href="../demo/judge/">See the same answer score two ways</a>
+</p>
+
+<div class="foot-tag">Evals 101 · Judge biases</div>
+
+---
+
 <div class="kicker">Mitigations</div>
 
 ## Keeping the judge honest

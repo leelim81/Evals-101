@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import JudgeStepper from '../components/JudgeStepper.astro';
+import FormatBiasDemo from '../components/FormatBiasDemo.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 ---
 <Base title="Judge Walkthrough" active="judge">
@@ -20,11 +21,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '') + '/';
 
   <section class="block">
     <div class="wrap">
+      <span class="kicker">A second bias · formatting</span>
+      <h2>The same answer, dressed up</h2>
+      <p class="lede" style="margin-bottom:22px">Position bias isn’t the only trap. Here the content is <strong>identical</strong> — only the markdown changes. Toggle the two and watch the judge’s score move on presentation alone.</p>
+      <FormatBiasDemo />
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
       <h2>What just happened</h2>
       <div class="grid c3" style="margin-top:8px">
         <div class="cell"><div class="t">RUBRIC = THE EVAL</div><p style="color:var(--ink); margin-top:6px; font-size:14px">The judge is only as good as its instructions. Define each criterion; ask for a reason before the score.</p></div>
         <div class="cell"><div class="t">COMPARE &gt; SCORE</div><p style="color:var(--ink); margin-top:6px; font-size:14px">Pairwise (“A or B?”) is more reliable than absolute 1–5 scores — but it’s where order bias bites.</p></div>
-        <div class="cell"><div class="t">DEFUSE THE BIAS</div><p style="color:var(--ink); margin-top:6px; font-size:14px">Run both orders and only trust a winner that survives A/B <em>and</em> B/A. Average repeated runs.</p></div>
+        <div class="cell"><div class="t">DEFUSE THE BIAS</div><p style="color:var(--ink); margin-top:6px; font-size:14px">Run both orders and only trust a winner that survives A/B <em>and</em> B/A. For format bias, tell the judge to ignore styling &amp; length.</p></div>
       </div>
       <p class="callout" style="margin-top:22px">Next question: across many items, how often does this judge actually agree with a human? → <a href={base + 'kappa'}>Measure it with Cohen’s Kappa</a>.</p>
     </div>
