@@ -66,20 +66,6 @@ No serious software ships without tests; AI shouldn't either.
 -->
 
 ---
-layout: center
-class: section text-center
-transition: fade
----
-
-<div class="kicker">Part 01</div>
-
-# How do we score an output?
-
-<div class="rule-accent" style="margin:1rem auto"></div>
-
-<p class="muted">Three families of methods — and when each one works.</p>
-
----
 
 <div class="kicker">The landscape</div>
 
@@ -167,20 +153,6 @@ fixed answer key. They're hopeless for generative, open-ended tasks.
 <p v-click class="callout" style="margin-top:1.8rem">
 We want human-like judgement at <span class="accent">code-like speed</span>. Enter the LLM judge.
 </p>
-
----
-layout: center
-class: section text-center
-transition: fade
----
-
-<div class="kicker">Part 02</div>
-
-# LLM-as-a-Judge
-
-<div class="rule-accent" style="margin:1rem auto"></div>
-
-<p class="muted">Using a strong model to grade another model's work.</p>
 
 ---
 
@@ -354,20 +326,6 @@ a real support-ticket example, prompt and verdict revealed step by step.
 <p v-click class="callout" style="margin-top:1.2rem">
 But every mitigation begs the real question: <span class="accent">how do we know the judge is right at all?</span>
 </p>
-
----
-layout: center
-class: section text-center
-transition: fade
----
-
-<div class="kicker">Part 03</div>
-
-# Can we trust the judge?
-
-<div class="rule-accent" style="margin:1rem auto"></div>
-
-<p class="muted">Validate it the only honest way — against people.</p>
 
 ---
 
@@ -562,22 +520,6 @@ On highly imbalanced data, kappa can look alarmingly low even when raters basica
 
 ---
 
-<div class="kicker">The wider toolbox</div>
-
-## Beyond Cohen's Kappa
-
-<div class="cardrow cols-3">
-  <div class="card"><div class="ct">ORDINAL</div><h4>Weighted κ</h4><p>For ordered labels (1–5 stars), partial credit: "4 vs 5" beats "1 vs 5".</p></div>
-  <div class="card"><div class="ct">&gt; 2 RATERS</div><h4>Fleiss' κ</h4><p>Cohen's only handles two raters. Fleiss' generalises to a whole panel.</p></div>
-  <div class="card"><div class="ct">GENERAL</div><h4>Krippendorff's α</h4><p>Any number of raters, any scale, handles missing data. The Swiss-army knife.</p></div>
-</div>
-
-<p v-click class="muted" style="margin-top:1.6rem">
-Same idea throughout: <strong>agreement, corrected for chance</strong>. Pick the one that fits your labels.
-</p>
-
----
-
 <div class="kicker">Putting it together</div>
 
 ## The judge-validation loop
@@ -594,74 +536,30 @@ Once κ is high, the judge runs on <span class="accent">thousands</span> of item
 </p>
 
 ---
-layout: center
-class: section text-center
-transition: fade
----
 
-<div class="kicker">Part 04</div>
+<div class="kicker">Singapore · governance you can run</div>
 
-# Singapore: AI Verify
+## AI Verify &amp; Project Moonshot
 
-<div class="rule-accent" style="margin:1rem auto"></div>
-
-<p class="muted">How a national programme turns these ideas into governance &amp; tooling.</p>
-
----
-
-<div class="kicker">The context</div>
-
-## Governance you can actually run
-
-<div class="grid grid-cols-2 gap-10" style="margin-top:0.4rem">
-<div>
-
-<p><strong>AI Verify</strong> — launched by Singapore's <strong>IMDA</strong>, stewarded by the <strong>AI Verify Foundation</strong> (a public–private body; members include Google, IBM, Microsoft, Salesforce).</p>
-
-<ul>
-  <li v-click>An open-source <strong>testing framework + toolkit</strong></li>
-  <li v-click>Checks AI against <strong>11 governance principles</strong> (fairness, robustness, transparency, accountability…)</li>
-  <li v-click>Combines <strong>technical tests</strong> + <strong>process checks</strong></li>
-</ul>
-
-</div>
-<div v-click="3">
-<p class="callout">
-Testing ≠ certification.<br>
-AI Verify produces <span class="accent">evidence</span>, not a "safe" stamp.
+<p style="max-width:72ch">
+<strong>AI Verify</strong> — Singapore's <strong>IMDA</strong>, stewarded by the <strong>AI Verify Foundation</strong> (Google, IBM, Microsoft, Salesforce…): an open-source <strong>testing framework + toolkit</strong> checking AI against <strong>11 governance principles</strong>. <strong>Testing ≠ certification</strong> — it produces <span class="accent">evidence</span>, not a "safe" stamp.
 </p>
-<p class="muted" style="margin-top:1rem; font-size:0.95rem">
-Passing the tests doesn't declare a system safe or ethical — it documents what was checked.
-</p>
-</div>
-</div>
 
-<!--
-Key nuance for the audience: this is the most commonly misunderstood point.
-AI Verify gives verifiability and documentation, not a guarantee.
--->
-
----
-
-<div class="kicker">Two tools, two jobs</div>
-
-## AI Verify vs Project Moonshot
-
-<div class="cardrow cols-2">
+<div class="cardrow cols-2" style="margin-top:1.1rem">
   <div class="card">
     <div class="ct">AI VERIFY — 2022</div>
     <h4>Traditional ML</h4>
-    <p>Classification &amp; regression, mostly on tabular data (limited image support). Fairness, robustness, explainability tests + governance process checks.</p>
+    <p>Classification &amp; regression on tabular data. Fairness, robustness, explainability tests + governance process checks.</p>
   </div>
   <div class="card">
     <div class="ct">PROJECT MOONSHOT — 2024</div>
     <h4>Generative AI / LLMs</h4>
-    <p>One of the first open LLM evaluation toolkits: benchmarking, red-teaming, and safety baselines for chatbots &amp; LLM apps.</p>
+    <p>One of the first open LLM eval toolkits: benchmarking, red-teaming &amp; safety baselines — and it uses an LLM judge.</p>
   </div>
 </div>
 
-<p v-click class="muted" style="margin-top:1.6rem">
-Same foundation, different era: AI Verify for classic models, <strong>Moonshot for the LLMs we actually build today</strong>.
+<p v-click class="muted" style="margin-top:1.1rem">
+Same foundation, different era: AI Verify for classic models, <strong>Moonshot for the LLMs we build today</strong>.
 </p>
 
 ---
@@ -744,20 +642,6 @@ A generic benchmark won't tell you if <em>your</em> app is safe. You still need 
 <p v-click class="callout" style="margin-top:1.6rem">
 You don't need a national programme — you need <span class="accent">these four boxes</span> wired together.
 </p>
-
----
-layout: center
-class: section text-center
-transition: fade
----
-
-<div class="kicker">Part 05</div>
-
-# Evals in the real world
-
-<div class="rule-accent" style="margin:1rem auto"></div>
-
-<p class="muted">Four things that separate a demo from a system you can trust.</p>
 
 ---
 
@@ -926,7 +810,7 @@ Now go measure something. <span class="accent">Thank you.</span>
 
 <ul style="font-size:1.02rem; line-height:1.5; max-width:60ch">
   <li><strong>Reference-guided</strong> grading is really a <em>variant</em> of single-answer grading (the judge is handed a gold answer) — not a separate third axis.</li>
-  <li><strong>Fleiss' κ</strong> extends to a whole panel but is <em>nominal-only</em> and assumes a fixed number of ratings per item; <strong>Krippendorff's α</strong> is the more general tool.</li>
+  <li><strong>Beyond Cohen:</strong> <strong>weighted κ</strong> gives partial credit on <em>ordered</em> labels (1–5 stars); <strong>Fleiss' κ</strong> extends to a panel but is <em>nominal-only</em> with fixed raters; <strong>Krippendorff's α</strong> is the most general (any scale, missing data).</li>
   <li><strong>Formatting / markdown bias</strong> is documented in <em>later</em> work — not the original MT-Bench paper.</li>
   <li><strong>Landis–Koch bands are arbitrary</strong> (the authors said as much). Always read κ <em>next to</em> the confusion matrix — remember the paradox.</li>
 </ul>
